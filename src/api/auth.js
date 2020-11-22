@@ -1,5 +1,5 @@
-import { result } from "lodash";
-import { API_HOST } from "../utils/constant";
+import { API_HOST, TOKEN } from "../utils/constant";
+import jwtDecode from "jwt-decode";
 
 export function SignUpApi(user) {
   const url = `${API_HOST}/registro`;
@@ -61,4 +61,40 @@ export function SignInApi(user) {
     .catch((err) => {
       return err;
     });
+}
+
+export function setTokenAPI(token) {
+  localStorage.setItem(TOKEN, token);
+}
+
+export function logoutAPI() {
+  localStorage.removeItem(TOKEN);
+}
+
+export function getTokenApi() {
+  return localStorage.getItem(TOKEN);
+}
+
+export function isUserLogedAPI() {
+  const token = getTokenApi();
+
+  if (!token) {
+    logoutAPI();
+    return null;
+  }
+  if (isExpired(token)) {
+    logoutAPI();
+  }
+  return jwtDecode(token);
+}
+
+function isExpired(token) {
+  const { exp } = jwtDecode(token);
+  const expired = exp * 1000;
+  const timeout = expired - Date.now();
+
+  if (timeout < 0) {
+    return true;
+  }
+  return false;
 }
