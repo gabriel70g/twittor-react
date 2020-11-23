@@ -9,10 +9,19 @@ import {
   faPowerOff,
 } from "@fortawesome/free-solid-svg-icons";
 import LogoWhite from "../../assets/png/logo-white.png";
+import UseAuth from "../../hocks/UseAuth";
+import { logoutAPI } from "../../api/auth";
 
 import "./LeftMenu.scss";
 
-export default function LeftMenu() {
+export default function LeftMenu(props) {
+  const { setRefreshCheckLogin } = props;
+  const user = UseAuth();
+
+  const logout = () => {
+    logoutAPI();
+    setRefreshCheckLogin(true);
+  };
   return (
     <div className="left-menu">
       <img className="logo" src={LogoWhite} alt="logo twittor" />
@@ -22,10 +31,10 @@ export default function LeftMenu() {
       <Link to="/users">
         <FontAwesomeIcon icon={faUser} /> Usuarios{" "}
       </Link>
-      <Link to="/profile">
+      <Link to={`/${user?._id}`}>
         <FontAwesomeIcon icon={faUser} /> Perfil{" "}
       </Link>
-      <Link to="/logoout">
+      <Link to="/logoout" onClick={logout}>
         <FontAwesomeIcon icon={faPowerOff} /> Cerrar sesión{" "}
       </Link>
       <Button>Twittoar</Button>

@@ -14,14 +14,14 @@ export default function App() {
     setUser(isUserLogedAPI());
     setRefreshCheckLogin(false);
     setLoadUser(true);
-  }, [setRefreshCheckLogin]);
+  }, [refreshCheckLogin]);
 
   if (!loadUser) return null;
 
   return (
     <AuthContext.Provider value={user}>
       {user ? (
-        <Routing />
+        <Routing setRefreshCheckLogin={setRefreshCheckLogin} />
       ) : (
         <SinginSingUp setRefreshCheckLogin={setRefreshCheckLogin} />
       )}
