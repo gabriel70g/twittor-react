@@ -15,7 +15,7 @@ export default function SingUpForm(props) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+
     let validCount = 0;
 
     values(formData).some((value) => {

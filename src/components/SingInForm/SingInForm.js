@@ -7,7 +7,7 @@ import { SignInApi, setTokenAPI } from "../../api/auth";
 import "./SingInForm.scss";
 
 export default function SingInForm(props) {
-  console.log(props);
+  const { setRefreshCheckLogin } = props;
   const [formData, setFormData] = useState(initialFormValue());
   const [singInLoading, setSingInLoading] = useState(false);
   const onSubmit = (e) => {
@@ -35,7 +35,7 @@ export default function SingInForm(props) {
                 toast.warn(resp.message);
               } else {
                 setTokenAPI(resp.token);
-                console.log(resp.token);
+                setRefreshCheckLogin(true);
               }
             })
             .catch((err) => {

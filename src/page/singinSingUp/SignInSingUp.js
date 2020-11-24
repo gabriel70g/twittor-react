@@ -62,7 +62,6 @@ function LeftComponent() {
 }
 
 function RigthComponents(props) {
-  console.log(props);
   const { openModal, setShowModal, setRefreshCheckLogin } = props;
   return (
     <Col className="signin-signup__right" xs={6}>
