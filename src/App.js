@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import SinginSingUp from "./page/singinSingUp";
+import SinginSingUp from "./page/SignInSingUp";
 import { ToastContainer } from "react-toastify";
 import { AuthContext } from "./utils/context";
 import { isUserLogedAPI } from "./api/auth";

@@ -4,47 +4,45 @@ import { values, size } from "lodash";
 import { toast } from "react-toastify";
 import { isEmailValid } from "../../utils/validations";
 import { SignInApi, setTokenAPI } from "../../api/auth";
+
 import "./SingInForm.scss";
 
 export default function SingInForm(props) {
   const { setRefreshCheckLogin } = props;
   const [formData, setFormData] = useState(initialFormValue());
-  const [singInLoading, setSingInLoading] = useState(false);
+  const [signInLoading, setSignInLoading] = useState(false);
+
   const onSubmit = (e) => {
     e.preventDefault();
+
     let validCount = 0;
     values(formData).some((value) => {
       value && validCount++;
       return null;
     });
 
-    if (validCount !== size(formData)) {
-      toast.warn("Completa todos los campos del formulario");
+    if (size(formData) !== validCount) {
+      toast.warning("Completa todo los campos del formulario");
     } else {
       if (!isEmailValid(formData.email)) {
-        toast.warn("El email es inválido");
+        toast.warning("Email es invalido");
       } else {
-        if (!isEmailValid(formData.email)) {
-          toast.warn("El email es inválido");
-        } else {
-          setSingInLoading(true);
-
-          SignInApi(formData)
-            .then((resp) => {
-              if (resp.message) {
-                toast.warn(resp.message);
-              } else {
-                setTokenAPI(resp.token);
-                setRefreshCheckLogin(true);
-              }
-            })
-            .catch((err) => {
-              toast.warn("Error del servidor, intentelo mas tarde");
-            })
-            .finally(() => {
-              setSingInLoading(false);
-            });
-        }
+        setSignInLoading(true);
+        SignInApi(formData)
+          .then((response) => {
+            if (response.message) {
+              toast.warning(response.message);
+            } else {
+              setTokenAPI(response.token);
+              setRefreshCheckLogin(true);
+            }
+          })
+          .catch(() => {
+            toast.error("Error del servidor, inténtelo más tarde");
+          })
+          .finally(() => {
+            setSignInLoading(false);
+          });
       }
     }
   };
@@ -74,7 +72,7 @@ export default function SingInForm(props) {
           />
         </Form.Group>
         <Button variant="primary" type="submit">
-          {!singInLoading ? "Iniciar sesión" : <Spinner animation="border" />}
+          {!signInLoading ? "Iniciar sesión" : <Spinner animation="border" />}
         </Button>
       </Form>
     </div>
